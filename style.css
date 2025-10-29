@@ -26,32 +26,46 @@ body {
   margin-bottom: 10px;
 }
 
-.site-logo {
-  width: 200px;
-  height: auto;
-  display: block;
+.brand-section {
   position: fixed;
-  left: 32px;
-  top: 16px;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px 0;
   z-index: 1000;
+  pointer-events: none; /* logo won't block clicks */
 }
 
-/* restore centered header/title while logo is fixed */
+.brand-logo {
+  width: 250px;
+  height: auto;
+  display: block;
+  pointer-events: auto; /* allow interaction with the image if needed */
+}
+
+/* push page content down so the fixed brand section doesn't overlap it */
+.page-wrapper {
+  width: 90%;
+  max-width: 900px;
+  padding-top: 110px; /* space for brand logo + padding */
+}
+
+/* restore centered header/title */
 .site-header {
   text-align: center;
-  padding-top: 48px;
+  padding-top: 8px;
 }
 
 /* smaller logo on narrow screens */
 @media (max-width: 480px) {
-  .site-logo {
-    width: 110px;
-    left: 50%;
-    top: 8px;
-    transform: translateX(-50%);
+  .brand-logo {
+    width: 200px;
   }
-  .site-header {
-    padding-top: 64px; /* give extra space for centered logo */
+  .page-wrapper {
+    padding-top: 96px; /* adjusted space for smaller logo */
   }
 }
 
