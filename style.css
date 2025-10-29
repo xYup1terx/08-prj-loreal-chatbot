@@ -129,6 +129,9 @@ body {
   overflow-y: auto;
   background: #0f0f0f;
   white-space: pre-line;
+  border-width: 2px;
+  border-color: #e3a535;
+  border-radius: 10px;
 }
 
 /* messages */
