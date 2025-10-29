@@ -8,7 +8,8 @@
 /* —— body + fonts —— */
 body {
   font-family: "Montserrat", Arial, Helvetica, sans-serif;
-  color: #333;
+  color: #fff;
+  background-color: #000;
   display: flex;
   justify-content: center;
 }
@@ -19,15 +20,39 @@ body {
 }
 
 /* header */
-.site-header {
-  text-align: center;
-  padding-top: 50px;
-}
-
 .site-title {
   font-size: 22px;
   font-weight: 500;
   margin-bottom: 10px;
+}
+
+.site-logo {
+  width: 200px;
+  height: auto;
+  display: block;
+  position: fixed;
+  left: 32px;
+  top: 16px;
+  z-index: 1000;
+}
+
+/* restore centered header/title while logo is fixed */
+.site-header {
+  text-align: center;
+  padding-top: 48px;
+}
+
+/* smaller logo on narrow screens */
+@media (max-width: 480px) {
+  .site-logo {
+    width: 110px;
+    left: 50%;
+    top: 8px;
+    transform: translateX(-50%);
+  }
+  .site-header {
+    padding-top: 64px; /* give extra space for centered logo */
+  }
 }
 
 /* chat window */
@@ -37,12 +62,12 @@ body {
 
 .chat-window {
   height: 360px;
-  border: 1px solid #000;
+  border: 1px solid #444;
   padding: 20px;
   font-size: 18px;
   line-height: 1.5;
   overflow-y: auto;
-  background: #fafafa;
+  background: #0f0f0f;
   white-space: pre-line;
 }
 
@@ -53,11 +78,11 @@ body {
 }
 
 .msg.user {
-  color: #000;
+  color: #fff;
 }
 
 .msg.ai {
-  color: #666666;
+  color: #cccccc;
 }
 
 /* input row */
@@ -70,12 +95,14 @@ body {
 .chat-form input {
   flex: 1;
   padding: 12px;
-  border: 1px solid #ccc;
+  border: 1px solid #444;
+  background: #1a1a1a;
+  color: #fff;
   font-size: 18px;
 }
 
 .chat-form input:focus {
-  outline: 2px solid #000;
+  outline: 2px solid #fff;
   outline-offset: 2px;
 }
 
@@ -99,11 +126,11 @@ body {
 }
 
 .chat-form button:hover {
-  background: #666666;
+  background: #333333;
 }
 
 .chat-form button:focus {
-  outline: 2px solid #000;
+  outline: 2px solid #fff;
   outline-offset: 2px;
 }
 
@@ -125,7 +152,7 @@ body {
   margin: 60px 0 40px;
   text-align: center;
   font-size: 14px;
-  color: #666;
+  color: #aaa;
 }
 
 .site-footer nav {
@@ -134,7 +161,7 @@ body {
 
 .site-footer a {
   margin: 0 8px;
-  color: #000;
+  color: #fff;
   text-decoration: none;
 }
 
