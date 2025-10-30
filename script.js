@@ -15,8 +15,16 @@ const WORKER_URL = "https://loreallll.templeal.workers.dev/"; // <-- set this to
  * The Cloudflare Worker should accept POST { messages } and return OpenAI-style response.
  */
 async function getAIResponse(prompt) {
-  // Build messages array (simple single user message)
-  const messages = [{ role: "user", content: prompt }];
+  // System message controls the assistant's personality/behavior. Edit this string
+  // to change tone, style, constraints, and persona. Keep it concise and single-purpose.
+  const SYSTEM_MESSAGE =
+    "You are L'Oréal's Smart Product Advisor: helpful, professional, concise, and friendly. Answer with product recommendations, routine advice, and short explanations suitable for general customers. Keep answers non-technical and customer-focused. If you don't know, say you don't know and suggest contacting support. Politely refuse to answer questions unrelated to L’Oréal products, routines, recommendations, beauty-related topics, etc.";
+
+  // Build messages array with system message first, then the user message
+  const messages = [
+    { role: "system", content: SYSTEM_MESSAGE },
+    { role: "user", content: prompt },
+  ];
 
   try {
     if (WORKER_URL) {
