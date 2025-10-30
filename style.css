@@ -132,20 +132,47 @@ body {
   border-width: 2px;
   border-color: #e3a535;
   border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 /* messages */
 .msg {
-  margin-bottom: 14px;
-  line-height: 1.5;
+  max-width: 78%;
+  padding: 12px 14px;
+  border-radius: 14px;
+  line-height: 1.4;
+  word-wrap: break-word;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
 }
 
+/* user messages appear on the right */
 .msg.user {
-  color: #fff;
+  align-self: flex-end;
+  background: linear-gradient(180deg, #e3a535, #c98e2f);
+  color: #000;
+  border-bottom-right-radius: 4px;
 }
 
+/* assistant messages appear on the left */
 .msg.ai {
-  color: #cccccc;
+  align-self: flex-start;
+  background: #1b1b1b;
+  color: #e6e6e6;
+  border-bottom-left-radius: 4px;
+}
+
+/* loading and error states */
+.msg.loading {
+  opacity: 0.85;
+  font-style: italic;
+}
+
+.msg.error {
+  border: 1px solid #ff6666;
+  background: #3a1a1a;
+  color: #ffdddd;
 }
 
 /* input row */
