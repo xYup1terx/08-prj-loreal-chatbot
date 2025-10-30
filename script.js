@@ -21,7 +21,7 @@ if (!conversation || conversation.length === 0) {
   appendSystemGreeting();
   saveConversation();
 } else {
-  // Render existing conversation
+  // Render only the most recent question/answer pair
   renderConversation();
 }
 
@@ -99,13 +99,14 @@ chatForm.addEventListener("submit", async (e) => {
     }
   }
 
-  // Add user message to conversation and UI
+  // Add user message to conversation and UI. Show only the latest user message + loading.
   const userMsg = { role: "user", content: text };
   conversation.push(userMsg);
-  appendChatMessage("user", text);
   saveConversation();
 
-  // show loading state
+  // Render only the latest user message, then add a loading bubble for the assistant
+  chatWindow.innerHTML = "";
+  appendChatMessage("user", text);
   const loading = document.createElement("div");
   loading.className = "msg ai loading";
   loading.textContent = "Thinking...";
@@ -117,9 +118,8 @@ chatForm.addEventListener("submit", async (e) => {
     // send the whole conversation (system + history + user)
     const aiText = await getAIResponse(conversation);
 
-    // append assistant message to conversation and UI
+    // append assistant message to conversation and UI (replace loading bubble)
     const assistantMsg = { role: "assistant", content: aiText };
-    // replace loading element with assistant message
     loading.className = "msg ai";
     loading.textContent = aiText;
     // auto-scroll to show the assistant response
@@ -171,15 +171,38 @@ function appendChatMessage(who, text) {
 
 function renderConversation() {
   chatWindow.innerHTML = "";
-  // skip system messages when rendering chat bubbles
-  conversation.forEach((m) => {
-    if (m.role === "system") return;
-    const who = m.role === "user" ? "user" : "ai";
-    const div = document.createElement("div");
-    div.className = `msg ${who}`;
-    div.innerHTML = escapeHtml(m.content);
-    chatWindow.appendChild(div);
-  });
+  // Render only the most recent user -> assistant pair to keep UI focused.
+  const chatParts = conversation.filter((m) => m.role !== "system");
+  if (!chatParts || chatParts.length === 0) {
+    appendSystemGreeting();
+    return;
+  }
+
+  // Find last user message index within chatParts
+  let lastUserIndex = -1;
+  for (let i = chatParts.length - 1; i >= 0; i--) {
+    if (chatParts[i].role === "user") {
+      lastUserIndex = i;
+      break;
+    }
+  }
+
+  if (lastUserIndex === -1) {
+    // No user message found; show most recent assistant if any
+    const lastAi = [...chatParts].reverse().find((m) => m.role === "assistant");
+    if (lastAi) appendChatMessage("ai", lastAi.content);
+    return;
+  }
+
+  const userMsg = chatParts[lastUserIndex];
+  appendChatMessage("user", userMsg.content);
+
+  // Show the assistant reply that follows that user message (if any)
+  const assistantAfter = chatParts
+    .slice(lastUserIndex + 1)
+    .find((m) => m.role === "assistant");
+  if (assistantAfter) appendChatMessage("ai", assistantAfter.content);
+
   chatWindow.scrollTop = chatWindow.scrollHeight;
 }
 
