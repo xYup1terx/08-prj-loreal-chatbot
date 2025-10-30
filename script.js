@@ -110,6 +110,8 @@ chatForm.addEventListener("submit", async (e) => {
   loading.className = "msg ai loading";
   loading.textContent = "Thinking...";
   chatWindow.appendChild(loading);
+  // auto-scroll to show the loading indicator
+  chatWindow.scrollTop = chatWindow.scrollHeight;
 
   try {
     // send the whole conversation (system + history + user)
@@ -120,6 +122,8 @@ chatForm.addEventListener("submit", async (e) => {
     // replace loading element with assistant message
     loading.className = "msg ai";
     loading.textContent = aiText;
+    // auto-scroll to show the assistant response
+    chatWindow.scrollTop = chatWindow.scrollHeight;
     conversation.push(assistantMsg);
     saveConversation();
   } catch (err) {
@@ -130,6 +134,20 @@ chatForm.addEventListener("submit", async (e) => {
     userInput.value = "";
   }
 });
+
+// Clear conversation button handler
+const clearBtn = document.getElementById("clearBtn");
+if (clearBtn) {
+  clearBtn.addEventListener("click", () => {
+    if (!confirm("Clear conversation and stored name? This cannot be undone."))
+      return;
+    localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem(STORAGE_NAME_KEY);
+    conversation = [{ role: "system", content: SYSTEM_MESSAGE }];
+    saveConversation();
+    appendSystemGreeting();
+  });
+}
 
 // small helper to avoid injecting raw HTML
 function escapeHtml(unsafe) {
@@ -196,6 +214,8 @@ function appendSystemGreeting() {
   div.className = "msg ai";
   div.textContent = "👋 Hello! How can I help you today?";
   chatWindow.appendChild(div);
+  // ensure we scroll to the greeting (keeps scrollbar available)
+  chatWindow.scrollTop = chatWindow.scrollHeight;
 }
 
 /* Try to extract a user's name from a free-form sentence.

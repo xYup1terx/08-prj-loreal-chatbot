@@ -182,6 +182,19 @@ body {
   margin-top: 16px;
 }
 
+.chat-form #clearBtn {
+  background: transparent;
+  color: #e3a535;
+  border: 1px solid #e3a535;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.chat-form #clearBtn:hover {
+  background: rgba(227, 165, 53, 0.08);
+}
+
 .chat-form input {
   flex: 1;
   padding: 12px;
