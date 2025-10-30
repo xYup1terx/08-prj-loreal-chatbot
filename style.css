@@ -7,12 +7,27 @@
 
 /* —— body + fonts —— */
 body {
-  font-family: "Montserrat", Arial, Helvetica, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   color: #fff;
   background-color: #000;
   display: flex;
   justify-content: center;
 }
+
+/* If you have the Halesworth eText Bold font file, place it in ./fonts/ and
+   uncomment the @font-face block below to load it locally. Example files: 
+   fonts/HalesworthEText-Bold.woff2
+
+@font-face {
+  font-family: 'Halesworth eText';
+  src: url('./fonts/HalesworthEText-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+Then the header will use 'Halesworth eText' when available and fall back to Montserrat.
+*/
 
 .page-wrapper {
   width: 90%;
@@ -22,7 +37,9 @@ body {
 /* header */
 .site-title {
   font-size: 22px;
-  font-weight: 500;
+  /* Prefer Halesworth eText Bold if available, fall back to Montserrat */
+  font-family: "Halesworth eText", Helvetica, sans-serif;
+  font-weight: 700; /* bold */
   margin-bottom: 10px;
   background-color: #e3a535;
   padding: 16px;
